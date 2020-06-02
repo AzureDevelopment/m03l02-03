@@ -1,0 +1,18 @@
+{
+    "bindings": [
+        {
+            "name": "myBlob",
+            "type": "blobTrigger",
+            "direction": "in",
+            "path": "imported-json/{name}",
+            "connection": "m3l2_STORAGE"
+        },
+        {
+            "type": "blob",
+            "name": "outputBlob",
+            "direction": "out",
+            "path": "csv/{rand-guid}.csv",
+            "connection": "m3l2_STORAGE"
+        }
+    ]
+}
