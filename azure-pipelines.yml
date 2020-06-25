@@ -26,14 +26,9 @@ jobs:
   - task: DotNetCoreCLI@2
     inputs:
       command: 'test'
-      arguments: '--logger "trx;LogFileName=tests.trx"'
+      arguments: '--logger "trx;LogFileName=tests.trx" --results-directory "$(Common.TestResultsDirectory)"'
       testRunTitle: 'tests'
       projects: 'C#/tests/tests.csproj'
-  - task: CopyFiles@2
-    inputs:
-      SourceFolder: '$(Agent.TempDirectory)'
-      Contents: 'tests.trx'
-      TargetFolder: '$(Common.TestResultsDirectory)'
   
 
 - job: B
