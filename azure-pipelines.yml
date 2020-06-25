@@ -9,13 +9,12 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: NodeTool@0
+- task: DotNetCoreCLI@2
   inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
+    command: 'build'
+    projects: 'C#/src/src.csproj'
 
-- script: |
-    npm install
-    npm run build
-  displayName: 'npm install and build'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'test'
+    projects: 'C#/tests/tests.csproj'
