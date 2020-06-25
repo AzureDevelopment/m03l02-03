@@ -27,7 +27,7 @@ jobs:
     inputs:
       command: 'custom'
       custom: test
-      arguments: '--logger "trx;LogFileName=tests.trx" --results-directory "$(Common.TestResultsDirectory)"'
+      arguments: '--logger "trx;LogFileName=tests.trx" --results-directory "$(Build.BinariesDirectory)"'
       testRunTitle: 'tests'
       projects: 'C#/tests/tests.csproj'
 
@@ -35,7 +35,7 @@ jobs:
     inputs:
       testResultsFormat: 'XUnit'
       testResultsFiles: 'tests.trx'
-      searchFolder: '$(Common.TestResultsDirectory)'
+      searchFolder: '$(Build.BinariesDirectory)'
   
 
 - job: B
@@ -59,4 +59,4 @@ jobs:
         Invoke-RestMethod -Method 'Post' -Uri $url -Headers @{
             "Content-Type" = "application/json"
         } -Body $body
-      workingDirectory: '$(Common.TestResultsDirectory)'
+      workingDirectory: '$(Build.BinariesDirectory)'
