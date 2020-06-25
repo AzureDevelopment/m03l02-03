@@ -31,7 +31,7 @@ steps:
     projects: 'C#/tests/tests.csproj'
 
 - task: PowerShell@2
-  condition: failed(tests)
+  condition: failed()
   inputs:
     targetType: 'inline'
     script: |
@@ -51,14 +51,14 @@ steps:
     workingDirectory: '$(Agent.TempDirectory)'
 
 - task: DotNetCoreCLI@2
-  condition: succeeded(tests)
+  condition: succeeded()
   inputs:
     command: 'publish'
     publishWebProjects: true
     projects: 'C#/src/src.csproj'
 
 - task: PublishBuildArtifacts@1
-  condition: succeeded(tests)
+  condition: succeeded()
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'drop'
