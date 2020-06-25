@@ -30,8 +30,21 @@ steps:
     testRunTitle: 'tests'
     projects: 'C#/tests/tests.csproj'
 
+- task: DotNetCoreCLI@2
+  condition: succeeded()
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    projects: 'C#/src/src.csproj'
+
+- task: PublishBuildArtifacts@1
+  condition: succeeded()
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
 - task: PowerShell@2
-  condition: failed()
   inputs:
     targetType: 'inline'
     script: |
@@ -49,17 +62,3 @@ steps:
           "Content-Type" = "application/json"
       } -Body $body
     workingDirectory: '$(Agent.TempDirectory)'
-
-- task: DotNetCoreCLI@2
-  condition: succeeded()
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
-    projects: 'C#/src/src.csproj'
-
-- task: PublishBuildArtifacts@1
-  condition: succeeded()
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
