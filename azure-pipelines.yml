@@ -25,3 +25,11 @@ steps:
   inputs:
     command: 'test'
     projects: 'C#/tests/tests.csproj'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      $content = [IO.File]::ReadAllText(".\tests.trx")
+      Write-Host $content
+    workingDirectory: 'C#/tests'
