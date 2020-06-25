@@ -38,8 +38,8 @@ steps:
       $data = @{
           tests = 
               @{
-                  "failed" = $XmlDocument.ResultSummary.Counters.failed
-                  "total" = $XmlDocument.ResultSummary.Counters.total
+                  "failed" = $XmlDocument.TestRun.ResultSummary.Counters.failed
+                  "total" = $XmlDocument.TestRun.ResultSummary.Counters.total
               }
       }
       $body = $data | ConvertTo-Json
