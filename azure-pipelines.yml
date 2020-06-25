@@ -30,6 +30,12 @@ jobs:
       arguments: '--logger "trx;LogFileName=tests.trx" --results-directory "$(Common.TestResultsDirectory)"'
       testRunTitle: 'tests'
       projects: 'C#/tests/tests.csproj'
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'XUnit'
+      testResultsFiles: 'tests.trx'
+      searchFolder: '$(Common.TestResultsDirectory)'
   
 
 - job: B
