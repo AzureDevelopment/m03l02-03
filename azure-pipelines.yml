@@ -20,6 +20,7 @@ steps:
   inputs:
     command: 'build'
     projects: 'C#/src/src.csproj'
+    arguments: --output $(System.DefaultWorkingDirectory)/publish_output --configuration Release
 
 - task: DotNetCoreCLI@2
   continueOnError: true
@@ -30,19 +31,19 @@ steps:
     testRunTitle: 'tests'
     projects: 'C#/tests/tests.csproj'
 
-- task: DotNetCoreCLI@2
+- task: ArchiveFiles@2
   condition: succeeded()
+  displayName: 'Archive files'
   inputs:
-    command: 'publish'
-    publishWebProjects: true
-    projects: 'C#/src/src.csproj'
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output'
+    includeRootFolder: false
+    archiveType: zip
+    archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+    replaceExistingArchive: true
 
-- task: PublishBuildArtifacts@1
+- publish: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
   condition: succeeded()
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'
-    publishLocation: 'Container'
+  artifact: drop
 
 - task: PowerShell@2
   inputs:
