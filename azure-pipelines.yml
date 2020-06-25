@@ -26,11 +26,13 @@ jobs:
   - task: DotNetCoreCLI@2
     inputs:
       command: 'test'
+      arguments: '--logger "trx;LogFileName=<tests.trx>"'
       testRunTitle: 'tests'
       projects: 'C#/tests/tests.csproj'
-      buildProperties: 
+  
 
 - job: B
+  dependsOn: A
   steps:
   - task: PowerShell@2
     inputs:
