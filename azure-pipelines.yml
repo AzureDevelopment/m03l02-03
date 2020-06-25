@@ -26,7 +26,8 @@ jobs:
   - task: DotNetCoreCLI@2
     inputs:
       command: 'custom'
-      arguments: 'test --logger "trx;LogFileName=tests.trx" --results-directory "$(Common.TestResultsDirectory)"'
+      custom: test
+      arguments: '--logger "trx;LogFileName=tests.trx" --results-directory "$(Common.TestResultsDirectory)"'
       testRunTitle: 'tests'
       projects: 'C#/tests/tests.csproj'
   
