@@ -33,7 +33,6 @@ jobs:
 
 - job: B
   dependsOn: A
-  pool:
   condition: failed()
   steps:
   - task: PowerShell@2
