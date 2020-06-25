@@ -29,10 +29,16 @@ jobs:
       arguments: '--logger "trx;LogFileName=tests.trx"'
       testRunTitle: 'tests'
       projects: 'C#/tests/tests.csproj'
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Agent.TempDirectory)'
+      Contents: 'tests.trx'
+      TargetFolder: '$(Common.TestResultsDirectory)'
   
 
 - job: B
   dependsOn: A
+  pool:
   condition: failed()
   steps:
   - task: PowerShell@2
@@ -52,4 +58,4 @@ jobs:
         Invoke-RestMethod -Method 'Post' -Uri $url -Headers @{
             "Content-Type" = "application/json"
         } -Body $body
-      workingDirectory: '$(Agent.TempDirectory)'
+      workingDirectory: '$(Common.TestResultsDirectory)'
