@@ -23,6 +23,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   continueOnError: true
+  name: tests
   inputs:
     command: 'test'
     arguments: '--logger "trx;LogFileName=tests.trx"'
@@ -30,6 +31,7 @@ steps:
     projects: 'C#/tests/tests.csproj'
 
 - task: PowerShell@2
+  condition: failed(tests)
   inputs:
     targetType: 'inline'
     script: |
@@ -47,3 +49,17 @@ steps:
           "Content-Type" = "application/json"
       } -Body $body
     workingDirectory: '$(Agent.TempDirectory)'
+
+- task: DotNetCoreCLI@2
+  condition: succeeded(tests)
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    projects: 'C#/src/src.csproj'
+
+- task: PublishBuildArtifacts@1
+  condition: succeeded(tests)
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
