@@ -54,7 +54,7 @@ wartosc1,wartosc2");
             using (output)
             {
                 //When
-                function.Run(input, output, "test", mockedLogger);
+                function.Run(input, output, "test.csv", mockedLogger);
 
                 //Then
                 Assert.True(output.Length > 0);
